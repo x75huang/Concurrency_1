@@ -45,7 +45,7 @@ public class ProcessFile {
     }
 
     /**
-     * Parse the JSON file
+     * Parse the JSON file and get the user list
      */
     private static ArrayList<User> readFile(String json) {
 
@@ -85,6 +85,9 @@ public class ProcessFile {
         return userList;
     }
 
+    /**
+     * Parse the JSON file and send the user list from one thread to another
+     */
     private static void processFile(String json) {
         ArrayList<User> userList = readFile(json);
         BlockingQueue<User> queue = new ArrayBlockingQueue<User>(10);
