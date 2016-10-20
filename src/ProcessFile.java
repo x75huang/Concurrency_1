@@ -15,34 +15,6 @@ import org.json.simple.parser.ParseException;
  */
 public class ProcessFile {
 
-    private ArrayList<User> userList;
-
-    private String json;
-    private User user;
-
-    public ProcessFile() {
-
-    }
-
-    public ProcessFile(String json) {
-        this.json = json;
-    }
-
-    public ArrayList<User> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(ArrayList<User> userList) {
-        this.userList = userList;
-    }
-
-    public String getJson() {
-        return json;
-    }
-
-    public void setJson(String json) {
-        this.json = json;
-    }
 
     /**
      * Parse the JSON file and get the user list
@@ -73,11 +45,7 @@ public class ProcessFile {
             return userList;
 
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
 
