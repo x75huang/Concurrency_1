@@ -64,8 +64,8 @@ public class ProcessFile {
             Producer producer = new Producer(queue, userList);
             Consumer consumer = new Consumer(queue);
 
-            new Thread(producer).start();
-            new Thread(consumer).start();
+            producer.start();
+            consumer.start();
         }
     }
 
