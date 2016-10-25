@@ -1,4 +1,6 @@
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Lynne on 2016-10-20.
@@ -11,13 +13,16 @@ public class Consumer {
 
     private Thread t;
 
+    private Lock lock = new ReentrantLock();
+
+
     private class ConsumerInner implements Runnable {
 
         @Override
         public void run() {
             try {
                 while (true) {
-                    Thread.sleep(100);
+                    t.sleep(100);
                     consume(queue.take());
                 }
             } catch (InterruptedException ex) {
@@ -40,7 +45,18 @@ public class Consumer {
     }
 
     public void start() {
+
+        lock.lock();
+
         t = new Thread(consumerInner);
         t.start();
+
+        lock.unlock();
+    }
+
+    public void stop() {
+        if (t != null) {
+            t.interrupt();
+        }
     }
 }

@@ -64,8 +64,19 @@ public class ProcessFile {
             Producer producer = new Producer(queue, userList);
             Consumer consumer = new Consumer(queue);
 
+
             producer.start();
             consumer.start();
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            producer.stop();
+            consumer.stop();
+
         }
     }
 

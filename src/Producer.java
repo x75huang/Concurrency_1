@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Lynne on 2016-10-20.
@@ -14,6 +18,8 @@ public class Producer {
 
     private Thread t;
 
+    private Lock lock = new ReentrantLock();
+
     private class ProducerInner implements Runnable {
 
         @Override
@@ -21,7 +27,7 @@ public class Producer {
             try {
                 while (true) {
 
-                    Thread.sleep(100);
+                    t.sleep(100);
 
                     if (userList != null) {
                         for (User user : userList) {
@@ -47,8 +53,17 @@ public class Producer {
     }
 
     public void start() {
-        this.t = new Thread(producerInner);
-        this.t.start();
+        lock.lock();
+        t = new Thread(producerInner);
+        t.setDaemon(true);
+        t.start();
+        lock.unlock();
+    }
+
+    public void stop() {
+        if (t != null) {
+            t.interrupt();
+        }
     }
 
 
