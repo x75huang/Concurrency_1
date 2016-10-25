@@ -47,10 +47,9 @@ public class Consumer {
     public void start() {
 
         lock.lock();
-
         t = new Thread(consumerInner);
+        t.setDaemon(true);
         t.start();
-
         lock.unlock();
     }
 
